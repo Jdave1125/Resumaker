@@ -1,0 +1,38 @@
+.app-container {
+  display: flex;
+  justify-content: space-evenly;
+  padding: 20px;
+}
+
+
+.resform{
+  background-color: grey;
+  width: 800px;
+}
+
+.general{
+  background-color: white;
+}
+
+/* PERSON/General info/dropdown */
+.persondropdown{
+  background-color: rgba(17, 41, 41, 0.493);
+  color: white;
+  width: 500px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  
+}
+.fillOut{
+  margin-left: 25px;
+  background-color: rgba(0, 0, 0, 0.342);
+  color: white;
+}
+
+/* PERSON RESUME SIDE */
+.person{
+  text-align: center;
+}
