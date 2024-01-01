@@ -8,8 +8,9 @@ function Resume() {
 
     return (
         <>
-        <Person />
-
+       
+          <Person />
+        
         </>
       );
     }

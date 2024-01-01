@@ -6,7 +6,6 @@
 
 
 .resform{
-  background-color: grey;
   width: 800px;
 }
 
@@ -16,7 +15,7 @@
 
 /* PERSON/General info/dropdown */
 .persondropdown{
-  background-color: rgba(17, 41, 41, 0.493);
+  background-color: rgba(28, 70, 70, 0.493);
   color: white;
   width: 500px;
   border-radius: 8px;
@@ -36,3 +35,17 @@
 .person{
   text-align: center;
 }
+
+.col1{
+  /* background-color: green; */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  border: 3px solid green;
+ 
+}
+
+
+
+
+
