@@ -1,171 +1,120 @@
 import { useState } from "react";
 
 function Person() {
-    const [showInfo,setInfo] = useState(false);
-    const [person, setPerson] = useState({ firstName: 'John', lastName: "Smith",email: "example@example.com",phone:'555-555-5555' });
-    const [edu, setEdu] = useState({ school: 'General College', degree: "B.S",date: "May 2023"});
-    // const handleIncreaseAge = () =>{
-    //   console.log("in handleIncreaseAge (before setPerson call): ", person)
-    //   setPerson({ ...person, age: person.age + 1 });
-    //   // we've called setPerson, surely person has updated?
-    //   console.log("in handleIncreaseAge (after setPerson call): ", person);
-    // };
-
-    //NOTE FOR NEXT TIME - see how we can fit the info into one box(the inputs)
-
-    const handleInputChange = (field) => (event) =>{
-        const newValue = event.target.value;
-        setPerson((prevPerson) => ({...prevPerson,[field]:newValue}));
-    } //this code simplifies and makes it so we dont have to use all these functions!
-
-    const handleEduChange = (field) => (event) =>{
-        const newValue = event.target.value;
-        setEdu((prevPerson) => ({...prevPerson,[field]:newValue}));
-    } 
-    // const handleFirstChange = () =>{
-    //     const newFirst = event.target.value;
-    //     setPerson((prevPerson) => ({...prevPerson, firstName: newFirst}))
-    // }
-
-    // const handleSecChange = () =>{
-    //     const newSec = event.target.value;
-    //     // setPerson((prevPerson) => ({...prevPerson,lastName:newSec})) //updater function here is best practice however
-    //     setPerson({...person, lastName:newSec}) //can do either or
-    // }
-
-    // // const handleIncreaseAge = () => {
-    // //     setPerson({ ...person, age: person.age + 1 });
-    // //   }; // this code here inc by 2 bc we use the prevPerson cb (how we update state mult times)
-    // const handleEmailChange = () =>{
-    //   const newEmail = event.target.value;
-    //   setPerson({...person, email:newEmail})
-    // }
-
-    // const handlePhChange = () =>{
-    //   const newPh = event.target.value;
-    //   setPerson({...person,phone:newPh})
-    // }
-
-    const toggleInfo =() =>{
-        setInfo((prevInfo) => !prevInfo);
-        //use functional form to avoid potential issues related to async nature
-        //original was setInfo(!showInfo)
+  const [showInfo, setShowInfo] = useState({ general: false, education: false, experience:false });
+  const [formData, setFormData] = useState({
+    person: {
+      firstName: 'John',
+      lastName: 'Smith',
+      email: 'example@example.com',
+      phone: '555-555-5555',
+    },
+    edu: {
+      school: 'General College',
+      degree: 'B.S',
+      date: 'May 2023',
+    },
+    exp:{
+        company: "General Company",
+        title: "Software Engineer",
+        desc: "Headed programming efforts using React library",
+        dates: "January 2020 - Present"
     }
+  });
 
-    return (
-<>
-    <div className="col1">
-    <div className="persondropdown" >
-        <h3 className="generalInfo">
+  const toggleInfo = (section) => {
+    setShowInfo((prevInfo) => ({ ...prevInfo, [section]: !prevInfo[section] }));
+  };
+
+  const handleInputChange = (section, field) => (event) => {
+    const newValue = event.target.value;
+    setFormData((prevData) => ({
+      ...prevData,
+      [section]: { ...prevData[section], [field]: newValue },
+    }));
+  };
+
+  const renderInputFields = (section, fields) => (
+    <div className="inputContainer">
+      {fields.map((field) => (
+        <input
+          key={field}
+          type="text"
+          placeholder={field}
+          value={formData[section][field]}
+          onChange={handleInputChange(section, field)}
+        />
+      ))}
+    </div>
+  );
+
+  return (
+    <>
+      <div className="col1">
+        <div className="persondropdown">
+          <h3 className="generalInfo">
             General Info
-            <button onClick={toggleInfo} className="fillOut">
-                enter info 
+            <button onClick={() => toggleInfo('general')} className="fillOut">
+              enter info
             </button>
-        </h3>
-
-        {showInfo && (
-        <div className="inputContainer">
-        <input
-            type="text"
-            placeholder="First Name"
-            value={person.firstName}
-            onChange={(handleInputChange('firstName'))}
-            />
-        
-        <input
-            type="text"
-            placeholder="Last Name"
-            value={person.lastName}
-            onChange={handleInputChange("lastName")}
-            />
-
-        <input
-            type="text"
-            placeholder="email"
-            value={person.email}
-            onChange={handleInputChange("email")}
-            />
-
-        <input
-            type="text"
-            placeholder="555-555-5555"
-            value={person.phone}
-            onChange={handleInputChange("phone")}
-            />
+          </h3>
+          {showInfo.general && renderInputFields('person', ['firstName', 'lastName', 'email', 'phone'])}
         </div>
-        )}
-    </div>
-    
-    <div className="persondropdown" >
-        
-        <h3 className="eduInfo">
+
+        <div className="persondropdown">
+          <h3 className="eduInfo">
             Education
-            <button onClick={toggleInfo} className="fillOut">
-                enter info 
+            <button onClick={() => toggleInfo('education')} className="fillOut">
+              enter info
             </button>
-        </h3>
-        
-        {showInfo && (
-        <div className="inputContainer">
-        <input
-            type="text"
-            placeholder="General University"
-            value={edu.school}
-            onChange={(handleEduChange('school'))}
-            />
-        
-        <input
-            type="text"
-            placeholder="B.S Human Biology"
-            value={edu.degree}
-            onChange={handleEduChange("degree")}
-            />
-
-        <input
-            type="text"
-            placeholder="May 2023"
-            value={edu.date}
-            onChange={handleEduChange("date")}
-            />
-        </div>
-        )}
-    </div>
-
-
-
-    </div>
-
-    
-    <div className="col2">
-        {/* <button onClick={handleIncreaseAge}>Increase age</button> */}
-      <div className="resform">
-
-        <div className="general">
-          <div className="person">
-            <h1>{person.firstName} {person.lastName}</h1>
-            <h4>{person.phone}</h4>
-            <h4>{person.email}</h4>
-            <hr color="green"></hr>
-          </div>
+          </h3>
+          {showInfo.education && renderInputFields('edu', ['school', 'degree', 'date'])}
         </div>
 
-        <div className="edu">
-          <div className="education">
-            <h1>Education</h1>
-            <h3>{edu.school} <i>{edu.degree}</i> </h3>
-            <h4>{edu.date}</h4>
-            <hr color="green"></hr>
-          </div>
+        <div className="persondropdown">
+            <h3 className="expInfo">
+                Experience
+                <button onClick={() => toggleInfo('experience')} className="fillOut">
+                    enter info
+                </button>
+            </h3>
+            {showInfo.experience && renderInputFields('exp',['company','title','desc','dates'])}
         </div>
-        
-
       </div>
 
+      <div className="col2">
+        <div className="resform">
+          <div className="general">
+            <div className="person">
+              <h1>{formData.person.firstName} {formData.person.lastName}</h1>
+              <h4>{formData.person.phone}</h4>
+              <h4>{formData.person.email}</h4>
+              <hr color="green"></hr>
+            </div>
+          </div>
 
-    </div>
+          <div className="edu">
+            <div className="education">
+              <h1>Education</h1>
+              <h3>{formData.edu.school} <i>{formData.edu.degree}</i> </h3>
+              <h4>{formData.edu.date}</h4>
+              <hr color="green"></hr>
+            </div>
+          </div>
+
+          <div className="exp">
+            <div className="experience">
+                <h1>Experience</h1>
+                <h3>{formData.exp.company} <i>{formData.exp.title}</i></h3>
+                <h5>{formData.exp.dates}</h5>
+                <h5>{formData.exp.desc}</h5>
+            </div>
+            
+          </div>
+        </div>
+      </div>
     </>
-      );
-    }
+  );
+}
 
-
-    export default Person;
+export default Person;

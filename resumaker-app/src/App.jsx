@@ -1,13 +1,12 @@
-import { useState } from 'react';
-import Resume from './Resume';
 import './App.css'; // Import a CSS file for styling
+import Person from './Person';
 
 
 const App = () => {
 
   return (
     <div className="app-container">
-      <Resume />
+      <Person />
     </div>
   );
 };
